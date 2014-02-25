@@ -30,6 +30,9 @@ game_state.main.prototype = {
         var space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         space_key.onDown.add(this.jump, this); 
 
+        var mouseDown = this.game.input.onDown;
+        mouseDown.add(this.jump, this)
+        
         // Create a group of 20 pipes
         this.pipes = game.add.group();
         this.pipes.createMultiple(20, 'pipe');  
@@ -41,6 +44,9 @@ game_state.main.prototype = {
         this.score = 0;
         var style = { font: "30px Arial", fill: "#ffffff" };
         this.label_score = this.game.add.text(20, 20, "0", style);  
+        
+        console.log(this.game.input);
+        console.log(this.game.input.pointer);
     },
 
     // This function is called 60 times per second
@@ -48,7 +54,7 @@ game_state.main.prototype = {
         // If the bird is out of the world (too high or too low), call the 'restart_game' function
         if (this.bird.inWorld == false)
             this.restart_game(); 
-
+        
         // If the bird overlap any pipes, call 'restart_game'
         this.game.physics.overlap(this.bird, this.pipes, this.restart_game, null, this);      
     },
